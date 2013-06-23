@@ -14,9 +14,9 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mplify.checkers._check;
-import com.mplify.helpers.ByteCoding;
+import com.mplify.checkers.Check;
 import com.mplify.logging.LogFacilities;
+import com.mplify.tools.ByteCoding;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
@@ -187,7 +187,7 @@ public class HelperForTestCases {
      */
 
     public synchronized static byte[] createFullyRandomByteStream(int size) {
-        _check.largerOrEqualToZero(size, "size");
+        Check.largerOrEqualToZero(size, "size");
         byte[] res = new byte[size];
         rand.nextBytes(res);
         return res;
