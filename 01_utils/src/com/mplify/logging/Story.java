@@ -85,7 +85,7 @@ public class Story {
      * allocating many "AsIsString", we will interprete a String also as an "AsIsString". null is not allowed.
      */
 
-    private List<Object> list = new LinkedList<Object>();
+    private List<Object> list = new LinkedList();
 
     /**
      * Constructor for an initially empty story.
@@ -293,6 +293,19 @@ public class Story {
     public Story add(Story story) {
         if (story != null && !story.isEmpty()) {
             list.add(story);
+        }
+        return this;
+    }
+
+    /**
+     * Fusing another Story into the current list, instead of adding the Story. Passing (null) reduces to a NOP.
+     * This means formatting will be different, with the ":" aligned across all lines.
+     * In order to permit chaining, "this" is returned after addition. 
+     */
+
+    public Story fuse(Story story) {
+        if (story != null && !story.isEmpty()) {
+            list.addAll(story.list);
         }
         return this;
     }
@@ -585,7 +598,7 @@ public class Story {
      */
 
     public List<ConcatMe> cutUp() {
-        Set<Story> recursiveCheckSet = new HashSet<Story>();
+        Set<Story> recursiveCheckSet = new HashSet();
         int absoluteIndent = 0;
         return cutUp(absoluteIndent, recursiveCheckSet);
     }
@@ -599,11 +612,11 @@ public class Story {
         assert !recursiveCheckSet.contains(this);
         recursiveCheckSet.add(this);
         String absoluteIndentStr = LogFacilities.getSpaceString(absoluteIndent);
-        List<ConcatMe> res = new LinkedList<ConcatMe>();
+        List<ConcatMe> res = new LinkedList();
         //
         // "indentsStack" is a stack of the indentations, with the topmost element being the one currently applied
         //
-        Stack<String> indentsStack = new Stack<String>();
+        Stack<String> indentsStack = new Stack();
         indentsStack.push(absoluteIndentStr);
         //
         // Find out at what position the ":" separating the doublet's left and right part is
