@@ -263,7 +263,7 @@ public class JDomHelper {
         for (Object it : element.getContent()) {
             if (it instanceof Comment) {
                 if (destroyThese == null) {
-                    destroyThese = new LinkedList<Content>();
+                    destroyThese = new LinkedList();
                 }
                 destroyThese.add((Content) it);
             }
@@ -335,7 +335,7 @@ public class JDomHelper {
         {
             List<?> attributes = element.getAttributes();
             if (!attributes.isEmpty()) {
-                List<String> attrNames = new ArrayList<String>(attributes.size());
+                List<String> attrNames = new ArrayList(attributes.size());
                 for (Object obj : attributes) {
                     Attribute attr = (Attribute) obj;
                     attrNames.add(attr.getName());

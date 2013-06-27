@@ -139,7 +139,7 @@ public class XMLParsing {
     private final static Map<Short, DomNodeType> domNodeTypeMap;
 
     static {
-        Map<Short, DomNodeType> map = new HashMap<Short, DomNodeType>();
+        Map<Short, DomNodeType> map = new HashMap();
         for (DomNodeType dnt : DomNodeType.values()) {
             map.put(Short.valueOf(dnt.getValue()), dnt);
         }

@@ -24,7 +24,6 @@ import com.mplify.names.AbstractName;
 public class PayloadWithJdom<T extends AbstractName> extends Payload<T> {
 
     private final static String CLASS = PayloadWithJdom.class.getName();
-
     private final static Logger LOGGER_init = LoggerFactory.getLogger(CLASS + ".<init>");
     
     /**
@@ -41,7 +40,7 @@ public class PayloadWithJdom<T extends AbstractName> extends Payload<T> {
                 String key = childElement.getName(); // not null, will be trimmed and lowercases in set()
                 String value = childElement.getText(); // not null, but may be empty
                 if (mapping == null) {
-                    mapping = new TreeMap<T, String>();
+                    mapping = new TreeMap();
                 }
                 String old = mapping.put(factory.make(key), value);
                 if (old != null) {
