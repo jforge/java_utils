@@ -53,7 +53,7 @@ public abstract class AbstractName implements Cloneable, Comparable<Object> {
     public AbstractName(String name) {
         Check.notNull(name, "name");
         this.name = namify(name);
-        Check.isTrue(this.name != null, "The passed String could not be transformed into a proper 'name'");
+        Check.isTrue(this.name != null, "The passed string '%s' could not be transformed into a proper 'name'", name);
     }
 
     /**
@@ -147,7 +147,7 @@ public abstract class AbstractName implements Cloneable, Comparable<Object> {
         Check.notNull(set, "set");
         StringBuilder buf = new StringBuilder();
         // sort alphabetically
-        List<AbstractName> list = new ArrayList<AbstractName>(set);
+        List<AbstractName> list = new ArrayList(set);
         Collections.sort(list);
         boolean appendComma = false;
         for (AbstractName rn : list) {
