@@ -24,7 +24,7 @@ import com.mplify.names.DottedAbstractName;
  * Testing the "dotted abstract name" which is used in naming.
  ******************************************************************************/
 
-//@SuppressWarnings("static-method")
+@SuppressWarnings("static-method")
 public class TestCaseDottedAbstractName extends TestStarter {
 
     private final static String CLASS = TestCaseDateParser.class.getName();

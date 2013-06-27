@@ -1,16 +1,11 @@
 package tests.core_low;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-
 import com.mplify.junit.TestStarter;
-import com.mplify.msgserver.addressing.Tvec;
 import com.mplify.tools.AddressAcceptor;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
@@ -26,7 +21,7 @@ import com.mplify.tools.AddressAcceptor;
  * addresses
  ******************************************************************************/
 
-//@SuppressWarnings("static-method")
+@SuppressWarnings("static-method")
 public class TestCaseAddressAcceptor extends TestStarter {
 
     @Test
@@ -78,48 +73,4 @@ public class TestCaseAddressAcceptor extends TestStarter {
         assertFalse("Test U4", AddressAcceptor.acceptAddress("nagios@sup_centreon_01.m-plify.net", false));
     }
     
-    @Test
-    public void testAddressMustBeFullyQualified() {
-        try {
-            Tvec.handleAddress("Hello", "World", true);
-            fail();
-        } catch (IllegalArgumentException exe) {
-            // OK
-        }
-    }
-
-    @Test
-    public void testCorrectStuff() {
-        assertEquals("Earth <Hello@World>", Tvec.handleAddress("Hello@World", "Earth", true).toString());
-        assertEquals("Hello@World", Tvec.handleAddress("Hello@World", null, true).toString());
-    }
-
-    @Test
-    public void testIfNullIsPassedAsValueThenNullIsReturned() {
-        assertNull(Tvec.handleAddress(null, null, true));
-        assertNull(Tvec.handleAddress("", "Earth", true));
-        assertNull(Tvec.handleAddress(null, "Whatever", true));
-        assertNull(Tvec.handleAddress(null, null, false));
-    }
-
-    @Test
-    public void testIfEmptyStringIsPassedAsValueThenNullMayBeReturned() {
-        assertNull(Tvec.handleAddress("", null, true));
-        try {
-            assertNull(Tvec.handleAddress("", null, false));
-            fail();
-        } catch (IllegalArgumentException exe) {
-            // OK
-        }
-    }
-
-    @Test
-    public void testBadSyntax() {
-        try {
-            Tvec.handleAddress("x@mach.com.", "label", true);
-            fail();
-        } catch (IllegalArgumentException exe) {
-            // OK
-        }
-    }
 }
