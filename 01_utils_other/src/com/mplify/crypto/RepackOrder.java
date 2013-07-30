@@ -3,7 +3,7 @@ package com.mplify.crypto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mplify.checkers._check;
+import com.mplify.checkers.Check;
 import com.mplify.stringmangling.CompressBehaviour;
 import com.mplify.stringmangling.EncryptBehaviour;
 

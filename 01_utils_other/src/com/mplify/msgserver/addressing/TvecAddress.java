@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.jdom.Element;
 
-import com.mplify.checkers._check;
+import com.mplify.checkers.Check;
 import com.mplify.enums_sms.NumberingPlanIndicator;
 import com.mplify.enums_sms.TypeOfNumber;
 import com.mplify.logging.LogFacilities;

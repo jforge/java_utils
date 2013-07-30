@@ -1,6 +1,6 @@
 package com.mplify.crypto;
 
-import com.mplify.checkers._check;
+import com.mplify.checkers.Check;
 import com.mplify.enums.EnumBasedOnInteger;
 import com.mplify.properties.PropertyName;
 

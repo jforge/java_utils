@@ -3,7 +3,7 @@ package com.mplify.crypto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mplify.checkers._check;
+import com.mplify.checkers.Check;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
