@@ -3,10 +3,10 @@ package com.mplify.sysprop;
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
  * Copyright (c) 2009, M-PLIFY S.A.
- *                     21, rue Glesener
- *                     L-1631 LUXEMBOURG
+ *                     68, avenue de la Liberté
+ *                     L-1930 Luxembourg
  *
- * All rights reserved.
+ * 2013-01: Released under the MIT License (http://opensource.org/licenses/MIT) 
  *******************************************************************************
  *******************************************************************************
  * Helper methods to access system properties

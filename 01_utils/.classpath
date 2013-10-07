@@ -7,5 +7,9 @@
 	<classpathentry kind="lib" path="/xtern_third_party_jars/logback/logback-classic.jar"/>
 	<classpathentry kind="lib" path="/xtern_third_party_jars/logback/logback-core.jar"/>
 	<classpathentry kind="lib" path="/xtern_third_party_jars/slf4j/jul-to-slf4j.jar"/>
+	<classpathentry exported="true" kind="con" path="GROOVY_DSL_SUPPORT"/>
+	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
+	<classpathentry kind="src" path="/01_utils_check"/>
+	<classpathentry kind="src" path="/02_utils_log"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

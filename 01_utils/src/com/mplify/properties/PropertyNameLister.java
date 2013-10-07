@@ -35,7 +35,7 @@ import com.mplify.logging.storyhelpers.Doublet;
 
 public class PropertyNameLister {
 
-    private final static Set<String> propertyNames = new HashSet<String>();
+    private final static Set<String> propertyNames = new HashSet();
 
     public static void listWhichPropertiesExist(PropertiesReader properties, Logger logger, Loglevel level) {
         assert properties != null;
@@ -44,7 +44,7 @@ public class PropertyNameLister {
         if (LoglevelAid.isEnabledFor(logger,level)) {
             synchronized (propertyNames) {
                 Story story = new Story();
-                List<String> l = new ArrayList<String>(propertyNames);
+                List<String> l = new ArrayList(propertyNames);
                 Collections.sort(l);
                 for (String s : l) {
                     story.add(new Doublet(s, Boolean.valueOf(properties.existsNonemptyKeyP(s))));
