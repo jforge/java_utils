@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mplify.checkers.Check;
-import com.mplify.io.ReaderToString;
+import com.mplify.io.SlurpReader;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
@@ -123,7 +123,7 @@ public class ResourceHelpers {
     static public String slurpStreamAndClose(InputStream is, String encoding, int maxChars) throws IOException {
         Logger logger = LOGGER_slurpStreamAndClose;
         Check.notNull(is, "input stream");
-        Check.notNull(encoding, "encoding");
+        Check.notNullAndNotOnlyWhitespace(encoding, "encoding");
         Reader reader = new InputStreamReader(is, encoding);
         try {
             StringBuilder buf = new StringBuilder();
@@ -181,7 +181,7 @@ public class ResourceHelpers {
         Check.notNull(encoding, "encoding");
         Reader reader = new InputStreamReader(new FileInputStream(file), encoding);
         try {
-            return ReaderToString.slurp(reader, 1024);
+            return SlurpReader.slurp(reader, 1024);
         } finally {
             try {
                 reader.close();

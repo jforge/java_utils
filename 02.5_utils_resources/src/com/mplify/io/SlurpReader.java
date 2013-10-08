@@ -15,36 +15,35 @@ import com.mplify.checkers.Check;
  *******************************************************************************
  *******************************************************************************
  * Copy from a reader into a string until EOL is reached. Be sure that EOL is
- * indeed assured to be reached. Basically, "slurp"
+ * indeed assured to be reached. Basically "slurp" the contents from the reader.
  * 
- * TODO: Fuse with StringMangler and ResourceHelpers functions....
+ * In Groovy, one would write:
+ * 
+ *    String fileContents = new File('/path/to/file').getText('UTF-8')
+ * 
+ * But see also:
+ * 
+ *    http://stackoverflow.com/questions/326390/how-to-create-a-java-string-from-the-contents-of-a-file
  * 
  * 2011.06.24 - Created by collecting common code
  ******************************************************************************/
 
-public class ReaderToString {
-
-    /**
-     * Cannot be instantiated
-     */
+public class SlurpReader {
     
-    private ReaderToString() {
-        // NOP
+    private SlurpReader() {
+        // NOP - cannot be instantiated
     }
     
-    /**
-     * Helper. Same function as in StringMangler. One might want to fuse...
-     */
-
     public static String slurp(Reader reader, int bufferSize) throws IOException {
         Check.notNull(reader,"reader");
         Check.largerThanZero(bufferSize,"buffer size");
-        StringBuilder sb = new StringBuilder();
-        char[] buffer = new char[bufferSize]; // TODO: Allocate from pool
+        StringBuilder res = new StringBuilder();
+        // The char[] buffer should be allocated from a pool if this is used often... maybe
+        char[] buffer = new char[bufferSize]; 
         int n;
         while ((n = reader.read(buffer)) >= 0) {
-            sb.append(buffer, 0, n);
+            res.append(buffer, 0, n);
         }
-        return sb.toString();
+        return res.toString();
     }
 }
