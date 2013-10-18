@@ -145,9 +145,7 @@ public abstract class AbstractId implements Comparable<AbstractId> {
         if (this == obj) {
             return 0; // quick guess
         }
-        if (obj == null) {
-            throw new IllegalArgumentException("The passed 'obj' is (null)");
-        }
+        Check.notNull(obj,"obj");
         //
         // Actual class equality?
         //
@@ -158,7 +156,7 @@ public abstract class AbstractId implements Comparable<AbstractId> {
         //
         // Value equlity?
         //
-        return (this.getValue() - ((AbstractId)obj).getValue());
+        return (this.getValue() - obj.getValue());
     }
 
 }

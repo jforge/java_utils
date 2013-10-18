@@ -522,6 +522,7 @@ public class Story {
             cm.concat(a); // cm knows how to write itself to an Appendable
             addEol = true;
         }
+        // TODO: Depending on how this is logged, the final EOL may be too much
         if (addEol) {
             a.append(LINE_SEP);
         }
