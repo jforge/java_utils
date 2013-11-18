@@ -10,7 +10,8 @@ import java.util.Map;
  *                     68, avenue de la Liberté
  *                     L-1930 Luxembourg
  *
- * 2013-01: Released under the MIT License (http://opensource.org/licenses/MIT) 
+ * 2013-01: Released by M-PLIFY S.A. 
+ *          under the MIT License: http://opensource.org/licenses/MIT 
  *******************************************************************************
  *******************************************************************************
  * Function for checking arguments of a method (or more generally doing
@@ -61,10 +62,17 @@ import java.util.Map;
  *              which is used to tell the developer what's up
  * 2013.02.21 - Added "imply()" 
  * 2013.06.21 - Renamed "_check" to "Check" for consistency
+ * 
+ * TODO: 
+ * 
+ * Additional methods taking one or two values before the varargs method
+ * is used, for efficiency purpose.
  ******************************************************************************/
 
 public class Check {
 
+    private final static boolean formatterAlwaysOn = true;
+    
     /**
      * This is used when Check.cannotHappen() or Check.fail() is called. This will *always* 
      * result in a runtime exception, but the compile-time verifier demands a proper return
@@ -155,33 +163,36 @@ public class Check {
     }
 
     /**
-     * Check whether a condition yields "true". If not, the "txt" is interpreted as a printf format
-     * string (http://download.oracle.com/javase/1.5.0/docs/api/java/util/Formatter.html) and combined
-     * with the varargs to form the error message in the thrown CheckFailedException.
+     * Check whether a condition yields "true". If not, the "txt" is interpreted as a printf/SLF4J format
+     * string and combined with the varargs to form the error message in the thrown CheckFailedException.
      */
 
     public static void isTrue(boolean x, String txt, Object... args) {
         if (!x) {
             throw new CheckFailedException(Formatter.formatForMe(txt, args));
         }
+        if (formatterAlwaysOn) {
+            System.err.println(Formatter.formatForMe(txt, args));
+        }
     }
 
     /**
-     * Check whether a condition yields "false". If yes, the "txt" is interpreted as a printf format
-     * string (http://download.oracle.com/javase/1.5.0/docs/api/java/util/Formatter.html) and combined
-     * with the varargs to form the error message in the thrown CheckFailedException.
+     * Check whether a condition yields "false". If yes, the "txt" is interpreted as a printf/SLF4J format
+     * string and combined with the varargs to form the error message in the thrown CheckFailedException.
      */
 
     public static void isFalse(boolean x, String txt, Object... args) {
         if (x) {
             throw new CheckFailedException(Formatter.formatForMe(txt, args));
         }
+        if (formatterAlwaysOn) {
+            System.err.println(Formatter.formatForMe(txt, args));
+        }        
     }
 
     /**
-     * Just throw. The "txt" is interpreted as a printf format
-     * string (http://download.oracle.com/javase/1.5.0/docs/api/java/util/Formatter.html) and combined
-     * with the varargs to form the error message in the thrown CheckFailedException.
+     * Just throw. The "txt" is interpreted as a printf/SLF4J format
+     * string and combined with the varargs to form the error message in the thrown CheckFailedException.
      */
 
     public static void fail(String txt, Object... args) {
@@ -191,19 +202,19 @@ public class Check {
     /**
      * This is used in places that are not supposed to be traversed, e.g. "defaults"
      * of switch statements. Actually throws "Error" instead of "Exception" as 
-     * calling this indicates a program error that needs code fixing. This will
-     * probably kill the thread. 
+     * calling this indicates a program error that needs code fixing presto. This will
+     * most probably kill the thread or the whole process. 
      */
 
     public static void cannotHappen() {
-        throw new Error("Can't happen");
+        throw new Error("Can't happen!");
     }
 
     /**
      * This is used in places that are not supposed to be traversed, e.g. "defaults"
      * of switch statements. Actually throws "Error" instead of "Exception" as 
-     * calling this indicates a program error that needs code fixing. This will
-     * probably kill the thread. 
+     * calling this indicates a program error that needs code fixing presto. This will
+     * most probably kill the thread or the whole process. 
      */
 
     public static void cannotHappen(String txt) {
@@ -213,8 +224,8 @@ public class Check {
     /**
      * This is used in places that are not supposed to be traversed, e.g. "defaults"
      * of switch statements. Actually throws "Error" instead of "Exception" as 
-     * calling this indicates a program error that needs code fixing. This will
-     * probably kill the thread. 
+     * calling this indicates a program error that needs code fixing presto. This will
+     * most probably kill the thread or the whole process. 
      */
 
     public static void cannotHappen(String txt, Throwable cause) {
@@ -224,8 +235,8 @@ public class Check {
     /**
      * This is used in places that are not supposed to be traversed, e.g. "defaults"
      * of switch statements. Actually throws "Error" instead of "Exception" as 
-     * calling this indicates a program error that needs code fixing. This will
-     * probably kill the thread. 
+     * calling this indicates a program error that needs code fixing presto. This will
+     * most probably kill the thread or the whole process. 
      */
 
     public static void cannotHappen(Throwable cause) {
@@ -235,10 +246,8 @@ public class Check {
     /**
      * This is used in places that are not supposed to be traversed, e.g. "defaults"
      * of switch statements. Actually throws "Error" instead of "Exception" as 
-     * calling this indicates a program error that needs code fixing. This will
-     * probably kill the thread. The "txt" is interpreted as a printf format
-     * string (http://download.oracle.com/javase/1.5.0/docs/api/java/util/Formatter.html) and combined
-     * with the varargs to form the error message in the thrown CheckFailedException.
+     * calling this indicates a program error that needs code fixing presto. This will
+     * most probably kill the thread or the whole process. 
      */
 
     public static void cannotHappen(String txt, Object... args) {
@@ -251,41 +260,43 @@ public class Check {
      * IllegalArgumentException.
      */
 
-    public static void notNullAndInstanceOf(String name, Object obj, Class<?> clazz) {
+    public static void notNullAndInstanceOf(Object x, String name, Class<?> clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException("The comparison class to compare against object '" + name + "' is (null)");
         }
-        if (obj == null) {
+        if (x == null) {
             throw new CheckFailedException("The object '" + name + "' is (null)");
         }
-        if (!clazz.isAssignableFrom(obj.getClass())) {
-            throw new CheckFailedException("The object '" + name + "' is not of class " + clazz.getName() + " but of class " + obj.getClass().getName());
+        if (!clazz.isAssignableFrom(x.getClass())) {
+            throw new CheckFailedException("The object '" + name + "' is not of class " + clazz.getName() + " but of class " + x.getClass().getName());
         }
     }
 
     /**
      * Check that object "obj" is an instance of class "clazz". 
      * Passing "null" as either "obj" or "clazz" will result in an 
-     * IllegalArgumentException. The "txt" is interpreted as a printf format
-     * string (http://download.oracle.com/javase/1.5.0/docs/api/java/util/Formatter.html) and combined
-     * with the varargs to form the error message in the thrown CheckFailedException.
+     * IllegalArgumentException. The "txt" is interpreted as a printf/SLF4J 
+     * format string and combined with the varargs to form the error message in
+     * the thrown CheckFailedException.
      */
 
-    public static void notNullAndInstanceOf(String name, Object obj, Class<?> clazz, String txt, Object... args) {
+    public static void notNullAndInstanceOf(Object x, String name, Class<?> clazz, String txt, Object... args) {
         if (clazz == null) {
             throw new IllegalArgumentException("The comparison class to compare against object '" + name + "' is (null)");
         }
-        if (obj == null) {
+        if (x == null) {
             throw new CheckFailedException("The object '" + name + "' is (null)");
         }
-        if (!clazz.isAssignableFrom(obj.getClass())) {
-            throw new CheckFailedException("The object '" + name + "' is not of class " + clazz.getName() + " but of class " + obj.getClass().getName() + ": " + Formatter.formatForMe(txt, args));
+        if (!clazz.isAssignableFrom(x.getClass())) {
+            throw new CheckFailedException("The object '" + name + "' is not of class " + clazz.getName() + " but of class " + x.getClass().getName() + ": " + Formatter.formatForMe(txt, args));
         }
+        if (formatterAlwaysOn) {
+            System.err.println(Formatter.formatForMe(txt, args));
+        }        
     }
 
     /**
      * Is x > 0? Throw CheckFailedException if not
-     * TODO: Switch parameters around 
      */
 
     public static void largerThanZero(int x, String name) {
@@ -298,7 +309,7 @@ public class Check {
      * Is x null or else x > 0? Throw CheckFailedException if not
      */
 
-    public static void nullOrElseLargerThanZero(String name, Integer x) {
+    public static void nullOrElseLargerThanZero(Integer x, String name) {
         if (x != null) {
             if (x.intValue() <= 0) {
                 throw new CheckFailedException("The object '" + name + "' is less than or equal to 0: " + x);
@@ -308,7 +319,6 @@ public class Check {
 
     /**
      * Is x >= 0? Throw CheckFailedException if not
-     * TODO: Switch parameters around
      */
 
     public static void largerOrEqualToZero(int x, String name) {
@@ -321,7 +331,7 @@ public class Check {
      * Special for fields read from the database. Throws UnexpectedDataException
      */
 
-    public static void storeFieldLargerOrEqualToZero(String name, int x) {
+    public static void storeFieldLargerOrEqualToZero(int x, String name) {
         if (x < 0) {
             throw new UnexpectedDataException("Integer field '" + name + "'  is smaller than 0: " + x);
         }
@@ -331,7 +341,7 @@ public class Check {
      * Special for fields read from the database. Throws UnexpectedDataException
      */
 
-    public static void storeFieldLargerThanZero(String name, int x) {
+    public static void storeFieldLargerThanZero(int x, String name) {
         if (x <= 0) {
             throw new UnexpectedDataException("Integer field '" + name + "' is less than or equal to 0: " + x);
         }
@@ -341,7 +351,7 @@ public class Check {
      * Check that 'value' is in the given range [lowestAllowed,highestAllowed]. Throw CheckFailedException
      */
 
-    public static void inRange(String name, int value, int lowestAllowed, int highestAllowed) {
+    public static void inRange(int value, String name, int lowestAllowed, int highestAllowed) {
         if (value < lowestAllowed || highestAllowed < value) {
             throw new CheckFailedException("The integer value '" + name + "' is out of range [" + lowestAllowed + "," + highestAllowed + "]: " + value);
         }
@@ -351,7 +361,7 @@ public class Check {
      * Check that 'value' is in the given range [lowestAllowed,highestAllowed]. Throw CheckFailedException
      */
 
-    public static void inRange(String name, long value, long lowestAllowed, long highestAllowed) {
+    public static void inRange(long value, String name, long lowestAllowed, long highestAllowed) {
         if (value < lowestAllowed || highestAllowed < value) {
             throw new CheckFailedException("The long value '" + name + "' is out of range [" + lowestAllowed + "," + highestAllowed + "]: " + value);
         }
@@ -362,8 +372,9 @@ public class Check {
      */
     
     private static boolean isAssertionsOn() {
-        boolean assertionsAreOn = false;        
-        assert (assertionsAreOn=true) == true;
+        boolean assertionsAreOn = false;       
+        // the next instruction assigns true to assertionsAreOn only if assertions are on!
+        assert (assertionsAreOn=true) == true; 
         return assertionsAreOn;
     }
 
@@ -443,7 +454,7 @@ public class Check {
     }
     
     /**
-     * Helper for implications
+     * Helper for implications; unfortunately the consequent cannot be lazily evaluated :-(
      */
     
     public static boolean imply(boolean antecedent, boolean consequent) {

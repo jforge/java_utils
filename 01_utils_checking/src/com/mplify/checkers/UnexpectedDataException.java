@@ -6,10 +6,11 @@ package com.mplify.checkers;
  *                     68, avenue de la Liberté
  *                     L-1930 Luxembourg
  *
- * 2013-01: Released under the MIT License (http://opensource.org/licenses/MIT) 
+ * 2013-01: Released by M-PLIFY S.A. 
+ *          under the MIT License: http://opensource.org/licenses/MIT  
  *******************************************************************************
  *******************************************************************************
- * Runtime Exception (i.e. no need to declare it) thrown by the "checks"
+ * Runtime Exception (so no need to declare it) thrown by the various "checks"
  ******************************************************************************/
 
 @SuppressWarnings("serial")
