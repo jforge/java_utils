@@ -71,7 +71,8 @@ import java.util.Map;
 
 public class Check {
 
-    private final static boolean formatterAlwaysOn = true;
+    private final static boolean formatterAlwaysOn = false;
+    private final static String innocuousText = "Testing of formatting: ";
     
     /**
      * This is used when Check.cannotHappen() or Check.fail() is called. This will *always* 
@@ -172,7 +173,7 @@ public class Check {
             throw new CheckFailedException(Formatter.formatForMe(txt, args));
         }
         if (formatterAlwaysOn) {
-            System.err.println(Formatter.formatForMe(txt, args));
+            System.err.println(Formatter.formatForMe(innocuousText + txt, args));
         }
     }
 
@@ -186,7 +187,7 @@ public class Check {
             throw new CheckFailedException(Formatter.formatForMe(txt, args));
         }
         if (formatterAlwaysOn) {
-            System.err.println(Formatter.formatForMe(txt, args));
+            System.err.println(Formatter.formatForMe(innocuousText + txt, args));
         }        
     }
 
@@ -291,7 +292,7 @@ public class Check {
             throw new CheckFailedException("The object '" + name + "' is not of class " + clazz.getName() + " but of class " + x.getClass().getName() + ": " + Formatter.formatForMe(txt, args));
         }
         if (formatterAlwaysOn) {
-            System.err.println(Formatter.formatForMe(txt, args));
+            System.err.println(Formatter.formatForMe(innocuousText + txt, args));
         }        
     }
 
