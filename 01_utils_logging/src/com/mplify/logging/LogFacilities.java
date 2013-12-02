@@ -134,7 +134,7 @@ public class LogFacilities {
      */
 
     public static String mangleString(String str) {
-        return mangleString(str, -1);
+        return mangleString(str, -1, false);
     }
 
     /**
@@ -142,7 +142,7 @@ public class LogFacilities {
      * Passing null yields "(null)"
      */
 
-    public static String mangleString(String str, int maxColumnCount) {
+    public static String mangleString(String str, int maxColumnCount, boolean keepNewlines) {
         if (str == null) {
             return "(null)";
         }
@@ -170,18 +170,23 @@ public class LogFacilities {
                     curColumn = indentStr.length();
                     addIndent = false;
                 }
-                if ((val < 0x20) || (0x7F <= val && val <= 0xA0) || (0xFF < val)) {
-                    buf.append("[");
-                    String hex = Integer.toHexString(val);
-                    if (hex.length() == 1) {
-                        buf.append("0");
-                    }
-                    buf.append(hex);
-                    buf.append("]");
-                    curColumn = curColumn + 2 + Math.max(2, hex.length());
-                } else {
+                if (keepNewlines && val == '\n') {
                     buf.append(val);
-                    curColumn++;
+                    curColumn = 0;
+                } else {
+                    if ((val < 0x20) || (0x7F <= val && val <= 0xA0) || (0xFF < val)) {
+                        buf.append("[");
+                        String hex = Integer.toHexString(val);
+                        if (hex.length() == 1) {
+                            buf.append("0");
+                        }
+                        buf.append(hex);
+                        buf.append("]");
+                        curColumn = curColumn + 2 + Math.max(2, hex.length());
+                    } else {
+                        buf.append(val);
+                        curColumn++;
+                    }
                 }
             }
 
