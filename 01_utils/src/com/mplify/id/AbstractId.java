@@ -56,7 +56,7 @@ public abstract class AbstractId implements Comparable<AbstractId> {
      */
 
     public AbstractId(int x) {
-        Check.largerThanZero(x, "integer");
+        Check.largerThanZero("integer", x);
         this.id = x;
     }
 
@@ -66,7 +66,7 @@ public abstract class AbstractId implements Comparable<AbstractId> {
 
     public AbstractId(Integer x) {
         Check.notNull(x, "integer");
-        Check.largerThanZero(x.intValue(), "integer");
+        Check.largerThanZero("integer",x.intValue());
         this.id = x.intValue();
     }
 

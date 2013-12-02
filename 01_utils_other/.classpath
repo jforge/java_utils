@@ -6,6 +6,6 @@
 	<classpathentry kind="src" path="/03_utils"/>
 	<classpathentry kind="lib" path="/xtern_third_party_jars/jdom/jdom.jar" sourcepath="/xtern_third_party_jars/jdom/jdom-src.zip"/>
 	<classpathentry kind="src" path="/02_utils_log"/>
-	<classpathentry kind="src" path="/01_utils_check"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/utils_checks"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

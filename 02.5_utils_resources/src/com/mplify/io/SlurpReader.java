@@ -36,7 +36,7 @@ public class SlurpReader {
     
     public static String slurp(Reader reader, int bufferSize) throws IOException {
         Check.notNull(reader,"reader");
-        Check.largerThanZero(bufferSize,"buffer size");
+        Check.largerThanZero(bufferSize, "buffer size");
         StringBuilder res = new StringBuilder();
         // The char[] buffer should be allocated from a pool if this is used often... maybe
         char[] buffer = new char[bufferSize]; 
