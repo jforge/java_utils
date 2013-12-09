@@ -14,8 +14,8 @@ import com.mplify.checkers.Check;
  * All rights reserved.
  *******************************************************************************
  *******************************************************************************
- * Copy from a reader into a string until EOL is reached. Be sure that EOL is
- * indeed assured to be reached. Basically "slurp" the contents from the reader.
+ * Copy from a "reader" into a "string" until EOF is reached.
+ * Basically "slurp" the contents from the reader.
  * 
  * In Groovy, one would write:
  * 

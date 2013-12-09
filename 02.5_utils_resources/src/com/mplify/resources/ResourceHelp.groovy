@@ -5,6 +5,8 @@ import java.util.List;
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import com.mplify.checkers.Check
+
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
  * Copyright (c) 2013, q-leap S.A.
@@ -22,10 +24,10 @@ import org.slf4j.LoggerFactory
 
 class ResourceHelp {
 
-    private final static CLASS = ResourceHelp.class.name
+    private final static String CLASS = ResourceHelp.class.name
     private final static Logger LOGGER_slurpResource = LoggerFactory.getLogger("${CLASS}.slurpResource")
     private final static Logger LOGGER_getStreamFromResource = LoggerFactory.getLogger("${CLASS}.getStreamFromResource")
-    
+
     /**
      * This qualifies the resource name by the package of the Class "clazz".
      * If "clazz" is null, default package is assumed.
@@ -47,8 +49,8 @@ class ResourceHelp {
     }
 
     /**
-     * This qualifies the resource name by the packijjName, whereby "." is replaced by "/".
-     * If "packageName" is null, default package is assumed.
+     * This qualifies the resource name by the "packijjName", whereby "." is replaced by "/".
+     * If "packijjName" is null, default package is assumed.
      * If the "nonQualifiedResourceName" is null, null will be returned.
      */
 
@@ -57,16 +59,14 @@ class ResourceHelp {
             return null;
         }
         String res = nonQualifiedResourceName.trim()
-        if (res.isEmpty()) {
-            throw new IllegalArgumentException("The passed 'non-qualified resource name' is empty");
-        }
-        if (res.indexOf('/')>=0) {
-            throw new IllegalArgumentException("The passed 'non-qualified resource name' contains a '/': '${res}'");
-        }
+        Check.isFalse(res.isEmpty(),"The passed 'non-qualified resource name' is empty")
+        Check.isTrue(res.indexOf('/') < 0, "The passed 'non-qualified resource name' contains a '/': {}", res);
         if (packijjName == null) {
             return res
         }
-        return packijjName.replace('.', '/') + "/" + res
+        else {
+            return packijjName.replace('.', '/') + "/" + res
+        }
     }
 
     /**
@@ -92,22 +92,19 @@ class ResourceHelp {
     }
 
     /**
-     * Get a binary input stream from a resource. Throws IllegalArgumentException if the resource could not be found. Never returns null.
+     * Get a binary input stream from a resource. 
+     * Never returns null.
      */
 
     static InputStream getStreamFromResource(String fullyQualifiedResourceName) {
         def logger = LOGGER_getStreamFromResource;
-        if (!fullyQualifiedResourceName || !(fullyQualifiedResourceName.trim())) {
-            throw new IllegalArgumentException("The passed 'fully-qualified resource name' is null or empty");
-        }
+        Check.notNullAndNotOnlyWhitespace(fullyQualifiedResourceName, "fully-qualified resource name")
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         //
         // the following call returns (null) if resource not found (instead of throwing)
         //
         InputStream is = classLoader.getResourceAsStream(fullyQualifiedResourceName.trim());
-        if (!is) {
-            throw new IllegalArgumentException("Could not find (fully qualified) resource named '${fullyQualifiedResourceName}'");
-        }
+        Check.isTrue(is != null, "Could not find (fully qualified) resource named '{}'", fullyQualifiedResourceName);
         //
         // If we are here, loading the resource was successful!
         //
@@ -117,7 +114,7 @@ class ResourceHelp {
         }
         return is;
     }
-    
+
     /**
      * Read a String from a Resource given as a fully qualified resource name.
      * Throws if the resource could not be found.
@@ -129,8 +126,8 @@ class ResourceHelp {
         InputStream is = getStreamFromResource(fullyQualifiedResourceName)
         try {
             String res
-            is.withReader(encoding) {
-                r -> res = r.text
+            is.withReader(encoding) { r ->
+                res = r.text
             }
         } finally {
             try {
@@ -140,7 +137,7 @@ class ResourceHelp {
             }
         }
     }
-    
+
     /**
      * Slurping the data; returns the lines
      */

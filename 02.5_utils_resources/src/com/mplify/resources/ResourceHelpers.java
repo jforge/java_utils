@@ -59,7 +59,7 @@ public class ResourceHelpers {
     private final static Logger LOGGER_slurpResource = LoggerFactory.getLogger(CLASS + ".slurpResource");
 
     private final static int SLURP_BUFFER_SIZE = 1024;
-   
+
     /**
      * Unreachable constructor
      */
@@ -75,7 +75,7 @@ public class ResourceHelpers {
      */
 
     static public String slurpResource(Class<?> hookClass, String nonQualifiedResourceName, String encoding) throws IOException {
-        String fqResourceName = fullyQualifyResourceName(hookClass, nonQualifiedResourceName); 
+        String fqResourceName = fullyQualifyResourceName(hookClass, nonQualifiedResourceName);
         return slurpResource(fqResourceName, encoding);
     }
 
@@ -86,7 +86,7 @@ public class ResourceHelpers {
      */
 
     static public String slurpResource(Package myPackage, String nonQualifiedResourceName, String encoding) throws IOException {
-        String fqResourceName = fullyQualifyResourceName(myPackage, nonQualifiedResourceName);        
+        String fqResourceName = fullyQualifyResourceName(myPackage, nonQualifiedResourceName);
         return slurpResource(fqResourceName, encoding);
     }
 
@@ -96,11 +96,11 @@ public class ResourceHelpers {
      * A non-null encoding must be passed. 
      */
 
-//    @SuppressWarnings("resource")
+    @SuppressWarnings("resource")
     static public String slurpResource(String fullyQualifiedResourceName, String encoding) throws IOException {
         Logger logger = LOGGER_slurpResource;
-        Check.notNull(fullyQualifiedResourceName,"fullyQualifiedResourceName");
-        Check.notNull(encoding,"encoding");        
+        Check.notNull(fullyQualifiedResourceName, "fully qualified resource name");
+        Check.notNull(encoding, "encoding");
         InputStream is = getStreamFromResource(fullyQualifiedResourceName);
         try {
             int maxChars = Integer.MAX_VALUE;
@@ -118,8 +118,8 @@ public class ResourceHelpers {
     /**
      * Slurp text from a stream
      */
-    
-//    @SuppressWarnings("resource")
+
+    @SuppressWarnings("resource")
     static public String slurpStreamAndClose(InputStream is, String encoding, int maxChars) throws IOException {
         Logger logger = LOGGER_slurpStreamAndClose;
         Check.notNull(is, "input stream");
@@ -174,7 +174,7 @@ public class ResourceHelpers {
      * Slurp text from a file. A non-null encoding must be passed!
      */
 
-//    @SuppressWarnings("resource")
+    @SuppressWarnings("resource")
     public static String slurpFile(File file, String encoding) throws IOException {
         Logger logger = LOGGER_slurpFile;
         Check.notNull(file, "file");
@@ -197,7 +197,7 @@ public class ResourceHelpers {
 
     static public InputStream getStreamFromResource(String fullyQualifiedResourceName) {
         Logger logger = LOGGER_getStreamFromResource;
-        Check.notNullAndNotOnlyWhitespace(fullyQualifiedResourceName,"fullyQualifiedResourceName");
+        Check.notNullAndNotOnlyWhitespace(fullyQualifiedResourceName, "fullyQualifiedResourceName");
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         //
         // the following call returns (null) if resource not found (instead of throwing)
@@ -221,7 +221,7 @@ public class ResourceHelpers {
      * Check whether a fully qualified resource can be found through the current Thread's classloader
      */
 
-//    @SuppressWarnings("resource")
+    @SuppressWarnings("resource")
     static public boolean existsResource(String fullyQualifiedResourceName) {
         Logger logger = LOGGER_existsResource;
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -265,19 +265,17 @@ public class ResourceHelpers {
      * trimmed! Is this right? It is in some cases, e.g. when too much whitespace comes in from the properties...
      */
 
-//    @SuppressWarnings("resource")
+    @SuppressWarnings("resource")
     static public InputStream getMailStreamFromResource(String fullyQualifiedResourceName) throws IOException {
         Logger logger = LoggerFactory.getLogger(CLASS + ".getMailStreamFromResource");
         InputStream is = getStreamFromResource(fullyQualifiedResourceName);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            {
-                byte[] bytebuf = new byte[512];
-                int count = is.read(bytebuf);
-                while (count > 0) {
-                    launder(count, bytebuf, bos);
-                    count = is.read(bytebuf);
-                }
+            byte[] bytebuf = new byte[512];
+            int count = is.read(bytebuf);
+            while (count > 0) {
+                launder(count, bytebuf, bos);
+                count = is.read(bytebuf);
             }
             return new ByteArrayInputStream(bos.toByteArray());
         } finally {
@@ -285,6 +283,11 @@ public class ResourceHelpers {
                 is.close();
             } catch (Exception exe) {
                 logger.warn("While closing stream obtained from resource '" + fullyQualifiedResourceName + "'", exe);
+            }
+            try {
+                bos.close();
+            } catch (Exception exe) {
+                // cannot happen: indeed, closing a byte array output stream has no effect
             }
         }
     }
