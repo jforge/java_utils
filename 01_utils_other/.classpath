@@ -5,7 +5,8 @@
 	<classpathentry kind="lib" path="/xtern_third_party_jars/slf4j/slf4j-api.jar" sourcepath="/xtern_third_party_jars/slf4j/slf4j-api-sources.jar"/>
 	<classpathentry kind="src" path="/03_utils"/>
 	<classpathentry kind="lib" path="/xtern_third_party_jars/jdom/jdom.jar" sourcepath="/xtern_third_party_jars/jdom/jdom-src.zip"/>
-	<classpathentry kind="src" path="/02_utils_log"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/utils_checks"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/utils_logging"/>
+	<classpathentry kind="lib" path="/xtern_third_party_jars/sun-javamail/mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

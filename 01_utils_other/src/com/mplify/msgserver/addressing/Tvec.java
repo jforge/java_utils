@@ -4,12 +4,10 @@ import javax.mail.internet.InternetAddress;
 
 import org.jdom.Element;
 
-import com.mplify.checkers._check;
 import com.mplify.logging.LogFacilities;
 import com.mplify.logging.Story;
 import com.mplify.logging.storyhelpers.Doublet;
 import com.mplify.tools.AddressAcceptor;
-import com.mplify.xml.ConstructionException;
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
@@ -348,7 +346,7 @@ public class Tvec {
      */
 
     public Tvec(Element element) throws ConstructionException {
-        _check.notNull(element,"element");
+        Check.notNull(element,"element");
         try {
             boolean newStyle = (element.getChild(SENDER_STR) != null || element.getChild(RECEIVER_STR) != null || element.getChild(REPLY_TO_STR) != null);
             boolean oldStyle = (element.getChild(SENDER_LABEL_STR) != null || element.getChild(SENDER_VALUE_STR) != null || element.getChild(RECEIVER_LABEL_STR) != null

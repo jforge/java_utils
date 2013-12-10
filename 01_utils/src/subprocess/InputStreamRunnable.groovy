@@ -5,8 +5,7 @@ import java.io.Reader
 import java.util.List
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import com.mplify.checkers._check
-import com.sun.xml.internal.bind.v2.model.core.MaybeElement;
+import com.mplify.checkers.Check
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
@@ -41,9 +40,9 @@ class InputStreamRunnable implements Runnable {
      */
 
     public InputStreamRunnable(InputStream is, String name, int maxBytes) {
-        _check.notNull(is, 'input stream')
-        _check.notNull(name, 'name')
-        _check.largerThanZero(maxBytes,'max bytes')
+        Check.notNull(is, 'input stream')
+        Check.notNull(name, 'name')
+        Check.largerThanZero(maxBytes,'max bytes')
         this.is = is
         this.name = name
         this.maxBytes = maxBytes
@@ -56,7 +55,7 @@ class InputStreamRunnable implements Runnable {
 
     public void run() {
         Logger logger = LOGGER_run
-        _check.isTrue(data==null, "The 'data' array is not (null) - this instance has already been used once")
+        Check.isTrue(data==null, "The 'data' array is not (null) - this instance has already been used once")
         byte[] readbuf = new byte[READ_BUFFER_SIZE]
         int readInTotal   = 0
         int actuallyRead  = 0
