@@ -3,7 +3,7 @@ package subprocess;
 import java.io.File
 import java.util.List
 
-import com.mplify.checkers._check
+import com.mplify.checkers.Check
 
 /* 34567890123456789012345678901234567890123456789012345678901234567890123456789
  * *****************************************************************************
@@ -80,10 +80,10 @@ class RunChildProcess {
      */
 
     public static BinaryOut runWithBinaryStdout(List cmdSeq,String cmdName,int maxBytesOnStdout, int maxCharsOnStderr) {
-        _check.notNull(cmdSeq,"command sequence")
-        _check.notNull(cmdName,"command name")
-        _check.largerThanZero(maxBytesOnStdout,'max bytes on stdout')
-        _check.largerThanZero(maxCharsOnStderr,'max chars on stderr')
+        Check.notNull(cmdSeq,"command sequence")
+        Check.notNull(cmdName,"command name")
+        Check.largerThanZero(maxBytesOnStdout,'max bytes on stdout')
+        Check.largerThanZero(maxCharsOnStderr,'max chars on stderr')
         //
         // Start process
         //
@@ -114,10 +114,10 @@ class RunChildProcess {
      */
 
     public static LinesOut runWithCharacterStdout(List cmdSeq,String cmdName,int maxCharsOnStdout, int maxCharsOnStderr) {
-        _check.notNull(cmdSeq,"command sequence")
-        _check.notNull(cmdName,"command name")
-        _check.largerThanZero(maxCharsOnStdout,'max chars on stdout')
-        _check.largerThanZero(maxCharsOnStderr,'max chars on stderr')
+        Check.notNull(cmdSeq,"command sequence")
+        Check.notNull(cmdName,"command name")
+        Check.largerThanZero(maxCharsOnStdout,'max chars on stdout')
+        Check.largerThanZero(maxCharsOnStderr,'max chars on stderr')
         //
         // Start process
         //
